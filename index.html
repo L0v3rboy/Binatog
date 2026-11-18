@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #fff;
+        color: #000;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <title>Hello, My Love</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=Caveat:wght@600&display=swap"
+    />
+    <style>
+      /* Layout: three full-width bands (birthday hello with a candle to blow out, wishes for her year, a letter to open), one column, left-aligned. */
+      :root {
+        --bg: #fdf0f2;
+        --bg-alt: #f9dfe5;
+        --fg: #2d1822;
+        --muted: #7a5766;
+        --accent: #d63a69;
+        --accent-fg: #ffffff;
+        --sun: #f2b84b;
+        --mint: #3bb4a4;
+        --line: #ecc3cf;
+        --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui,
+          sans-serif;
+        --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-hand: "Caveat", "Segoe Script", cursive;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1c1017;
+          --bg-alt: #28161f;
+          --fg: #fbe9ef;
+          --muted: #c79aab;
+          --accent: #ff7a9f;
+          --accent-fg: #2a0f1a;
+          --sun: #f5c35e;
+          --mint: #54cdbd;
+          --line: #4a2a38;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1c1017;
+        --bg-alt: #28161f;
+        --fg: #fbe9ef;
+        --muted: #c79aab;
+        --accent: #ff7a9f;
+        --accent-fg: #2a0f1a;
+        --sun: #f5c35e;
+        --mint: #54cdbd;
+        --line: #4a2a38;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-body);
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .band {
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        padding-block: 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .band.alt {
+        background: var(--bg-alt);
+      }
+      .inner {
+        max-width: 720px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1,
+      h2 {
+        font-family: var(--font-display);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(2.8rem, 12vw, 5.6rem);
+        font-weight: 700;
+      }
+      h2 {
+        font-size: clamp(1.9rem, 7vw, 3rem);
+        font-weight: 700;
+      }
+      p {
+        margin: 0;
+      }
+
+      .eyebrow {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 20px;
+      }
+      .lede {
+        color: var(--muted);
+        max-width: 34ch;
+        margin-top: 24px;
+        font-size: 1.15rem;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+
+      .btn {
+        font: inherit;
+        font-weight: 600;
+        background: var(--accent);
+        color: var(--accent-fg);
+        border: 0;
+        border-radius: 999px;
+        padding: 14px 26px;
+        cursor: pointer;
+        margin-top: 36px;
+        transition: transform 0.15s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn:focus-visible {
+        outline: 3px solid var(--sun);
+        outline-offset: 3px;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--fg);
+        border: 2px solid var(--fg);
+      }
+
+      /* candle */
+      .candle-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 22px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+      .candle {
+        position: relative;
+        width: 22px;
+        height: 84px;
+        flex: none;
+      }
+      .candle .stick {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 22px;
+        height: 64px;
+        background: repeating-linear-gradient(
+          -45deg,
+          var(--accent) 0 8px,
+          var(--bg) 8px 16px
+        );
+        border: 2px solid var(--fg);
+        border-radius: 4px;
+      }
+      .candle .wick {
+        position: absolute;
+        bottom: 64px;
+        left: 10px;
+        width: 3px;
+        height: 8px;
+        background: var(--fg);
+      }
+      .flame {
+        position: absolute;
+        bottom: 70px;
+        left: 3px;
+        width: 16px;
+        height: 24px;
+        background: radial-gradient(
+          circle at 50% 70%,
+          #fff6c9 0 25%,
+          var(--sun) 60%,
+          #f08a3c 100%
+        );
+        border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+        transform-origin: 50% 100%;
+        animation: flicker 1.1s ease-in-out infinite alternate;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+      .candle.out .flame {
+        opacity: 0;
+        transform: scale(0.2);
+        animation: none;
+      }
+      .smoke {
+        position: absolute;
+        bottom: 74px;
+        left: 8px;
+        width: 6px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--muted);
+        opacity: 0;
+        filter: blur(3px);
+      }
+      .candle.out .smoke {
+        animation: puff 1.6s ease-out forwards;
+      }
+      @keyframes flicker {
+        from {
+          transform: scale(1, 1) rotate(-3deg);
+        }
+        to {
+          transform: scale(0.92, 1.08) rotate(3deg);
+        }
+      }
+      @keyframes puff {
+        0% {
+          opacity: 0.55;
+          transform: translateY(0) scale(0.6);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-34px) scale(1.6);
+        }
+      }
+      .wish-text {
+        font-family: var(--font-hand);
+        font-size: 2rem;
+        line-height: 1.1;
+        color: var(--accent);
+        max-width: 16ch;
+        padding-bottom: 6px;
+      }
+      .btn.small {
+        margin-top: 0;
+      }
+
+      /* confetti */
+      .confetti {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .confetti i {
+        position: absolute;
+        top: -20px;
+        width: 10px;
+        height: 16px;
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+      @keyframes fall {
+        from {
+          transform: translateY(0) rotate(0deg);
+        }
+        to {
+          transform: translateY(640px) rotate(540deg);
+        }
+      }
+
+      /* section 2 */
+      .things {
+        list-style: none;
+        padding: 0;
+        margin: 40px 0 0;
+        display: grid;
+        gap: 0;
+      }
+      .things li {
+        display: grid;
+        grid-template-columns: 14px 1fr;
+        gap: 18px;
+        align-items: start;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+        font-size: 1.25rem;
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+      }
+      .things li:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .things li::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        margin-top: 0.4em;
+        background: var(--sun);
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+      }
+      .note {
+        color: var(--muted);
+        margin-top: 24px;
+        font-size: 1rem;
+      }
+
+      /* section 3 */
+      .letter {
+        margin-top: 36px;
+        background: var(--bg-alt);
+        border: 2px solid var(--fg);
+        border-radius: 16px;
+        padding: 28px 24px;
+      }
+      .letter p + p {
+        margin-top: 14px;
+      }
+      .sign {
+        font-family: var(--font-hand);
+        font-size: 2rem;
+        color: var(--accent);
+        margin-top: 18px;
+        line-height: 1;
+      }
+      .reply {
+        margin-top: 28px;
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      footer {
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        padding-block: 28px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .confetti i {
+          animation: none;
+          top: 12%;
+        }
+        .flame {
+          animation: none;
+        }
+        .btn {
+          transition: none;
+        }
+        .candle.out .smoke {
+          animation: none;
+        }
+      }
+    </style>
+
+    <main>
+      <section class="band" id="hello" aria-label="Birthday greeting">
+        <div class="confetti" aria-hidden="true" id="confetti"></div>
+        <div class="inner">
+          <p class="eyebrow">Today is all yours</p>
+          <h1>Happy Birthday, <em>my love.</em></h1>
+          <p class="lede">
+            Happiest birthday to my favorite person. Blow mo mung yung candle
+          </p>
+          <div class="candle-row">
+            <div class="candle" id="candle" aria-hidden="true">
+              <div class="flame"></div>
+              <div class="smoke"></div>
+              <div class="wick"></div>
+              <div class="stick"></div>
+            </div>
+            <button class="btn small" id="blow" type="button">
+              Blow mo muna candle
+            </button>
+            <p class="wish-text" id="wishText" hidden>
+              Sabihin mo nalang sakin wish mo ha!!!
+            </p>
+          </div>
+          <button class="btn ghost" id="go1" type="button">
+            Keep scrolling
+          </button>
+        </div>
+      </section>
+
+      <section class="band alt" id="wishes" aria-label="Birthday wishes">
+        <div class="inner">
+          <p class="eyebrow">My wishes for your year</p>
+          <h2>Here is what I hope for you.</h2>
+          <ul class="things">
+            <li>
+              I hope ma-achieve mo yung mga dreams mo. Support lang ako sayo
+              always.
+            </li>
+            <li>
+              That you get everything you quietly want and a few things you did
+              not know to ask for.
+            </li>
+            <li>That every year, I get to be the one who celebrates you.</li>
+          </ul>
+          <p class="note">click mo yung nasa ibaba.</p>
+          <button class="btn ghost" id="go2" type="button">Eto pa!</button>
+        </div>
+      </section>
+
+      <section class="band" id="note" aria-label="A birthday letter">
+        <div class="inner">
+          <p class="eyebrow">A letter for you</p>
+          <h2>Your birthday letter is waiting.</h2>
+          <button
+            class="btn"
+            id="open"
+            type="button"
+            aria-expanded="false"
+            aria-controls="letter"
+          >
+            Open the letter
+          </button>
+          <div class="letter" id="letter" hidden>
+            <p>
+              Happy birthday to my favorite person. Thank you for coming into my
+              life. Buti nalang ginawa ka nila tito at tita.
+            </p>
+            <p>
+              Thank you for being someone I can laugh with, be quiet with, and
+              grow older with. I hope today feels as special as you make
+              everyone else feel.
+            </p>
+            <p class="sign">Forever yours</p>
+            <button class="btn ghost" id="smile" type="button">
+              Tap if you smiled
+            </button>
+            <p class="reply" id="reply" hidden>
+              I knew it. Happy birthday. I love you.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>See you soon, my love</footer>
+
+    <script>
+      (function () {
+        var box = document.getElementById("confetti");
+        var colors = ["var(--accent)", "var(--sun)", "var(--mint)"];
+        for (var i = 0; i < 18; i++) {
+          var c = document.createElement("i");
+          c.style.left = 2 + i * 5.4 + "%";
+          c.style.background = colors[i % 3];
+          c.style.animationDuration = 9 + (i % 6) * 2 + "s";
+          c.style.animationDelay = -i * 1.3 + "s";
+          c.style.width = 8 + (i % 3) * 3 + "px";
+          box.appendChild(c);
+        }
+
+        var candle = document.getElementById("candle");
+        var blow = document.getElementById("blow");
+        var wishText = document.getElementById("wishText");
+        var lit = true;
+        blow.addEventListener("click", function () {
+          lit = !lit;
+          candle.classList.toggle("out", !lit);
+          wishText.hidden = lit;
+          blow.textContent = lit ? "Blow mo ulit candle" : "Isa pa?";
+        });
+
+        function go(id) {
+          document
+            .getElementById(id)
+            .scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        document.getElementById("go1").addEventListener("click", function () {
+          go("wishes");
+        });
+        document.getElementById("go2").addEventListener("click", function () {
+          go("note");
+        });
+
+        var openBtn = document.getElementById("open");
+        var letter = document.getElementById("letter");
+        openBtn.addEventListener("click", function () {
+          var isOpen = !letter.hidden;
+          letter.hidden = isOpen;
+          openBtn.setAttribute("aria-expanded", String(!isOpen));
+          openBtn.textContent = isOpen ? "Open the letter" : "Close the letter";
+        });
+        document.getElementById("smile").addEventListener("click", function () {
+          document.getElementById("reply").hidden = false;
+        });
+      })();
+    </script>
+  </body>
+</html>
