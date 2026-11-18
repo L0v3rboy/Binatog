@@ -392,6 +392,10 @@
       }
     </style>
 
+    <audio id="bgMusic" loop preload="auto">
+      <source src="music.mp3" type="audio/mpeg" />
+    </audio>
+
     <main>
       <section class="band" id="hello" aria-label="Birthday greeting">
         <div class="confetti" aria-hidden="true" id="confetti"></div>
@@ -480,6 +484,16 @@
 
     <script>
       (function () {
+        // Try to start the background music when the page loads.
+        // Browsers may block audible autoplay until the visitor interacts with the page.
+        var bgMusic = document.getElementById("bgMusic");
+        bgMusic.volume = 0.75;
+        var musicPromise = bgMusic.play();
+        if (musicPromise !== undefined) {
+          musicPromise.catch(function () {
+            // Autoplay was blocked by the browser; no button is shown.
+          });
+        }
         var box = document.getElementById("confetti");
         var colors = ["var(--accent)", "var(--sun)", "var(--mint)"];
         for (var i = 0; i < 18; i++) {
@@ -496,7 +510,16 @@
         var blow = document.getElementById("blow");
         var wishText = document.getElementById("wishText");
         var lit = true;
+        var bgMusic = document.getElementById("bgMusic");
+        bgMusic.volume = 0.4;
+
         blow.addEventListener("click", function () {
+          if (bgMusic.paused) {
+            bgMusic.play().catch(function (error) {
+              console.log("Music error:", error);
+            });
+          }
+
           lit = !lit;
           candle.classList.toggle("out", !lit);
           wishText.hidden = lit;
